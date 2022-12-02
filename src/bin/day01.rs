@@ -5,32 +5,34 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let file_path = &args[1];
 
-    let mut calories: Vec<i32> = Vec::new();
+    let mut sum = 0;
+    let mut most_calories = 0;
 
-    fs::read_to_string(file_path)
-        .expect("Couldn't open file")
-        .split("\n")
-        .fold(0, |sum, item| match item.parse::<i32>() {
-            Ok(calorie) => sum + calorie,
-            Err(_err) => {
-                calories.push(sum);
-                0
-            }
-        });
+    let input_raw = fs::read_to_string(file_path).expect("Couldn't open file");
+    let input: Vec<&str> = input_raw.split("\n").collect();
 
-    let max_calories = calories.iter().max().unwrap();
-    println!("{max_calories}");
-
-    // Second part
-    let mut top_three: [i32; 3] = [0; 3];
-    for calorie in calories {
-        let smallest = top_three.iter().min().unwrap();
-        let smallest_index = top_three.iter().position(|x| x == smallest).unwrap();
-        if &calorie > smallest {
-            top_three[smallest_index] = calorie
-        }
+    for line in &input {
+        if *line != "" {sum += line.parse::<i32>().unwrap()}
+        else if sum > most_calories {most_calories = sum; sum = 0}
+        else { sum = 0 }
     }
-    let top_sum = top_three.iter().sum::<i32>();
+    
+    println!("{most_calories}");
 
-    println!("{top_sum}")
+    // part two
+    sum = 0;
+    let mut top_three = [0; 3];
+    for line in &input {
+        if *line != "" {sum += line.parse::<i32>().unwrap()}
+        else if sum > *top_three.iter().min().unwrap() {
+            let smallest_index = top_three.iter().position(|x| x == top_three.iter().min().unwrap()).unwrap();
+            top_three[smallest_index] = sum;
+            sum = 0
+        }
+        else { sum = 0 }
+    }
+    
+    let top_three_sum: i32 = top_three.iter().sum();
+    
+    println!("{top_three_sum}")
 }
