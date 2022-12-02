@@ -34,13 +34,12 @@ fn main() {
         ("Z",3)
     ]);
 
-    let mut score = 0;
-    for line in inputs_raw.lines() {
+    let score = inputs_raw.lines().fold(0, | score, line | {
         let play: Vec<&str> = line.split(" ").collect();
         let opponents_play = shape_points.get(play[0]).unwrap();
         let my_play = shape_points.get(play[1]).unwrap();
-        score += shape_points.get(play[1]).unwrap() + result(*opponents_play, *my_play, &shapes)
-    }
+        score + shape_points.get(play[1]).unwrap() + result(*opponents_play, *my_play, &shapes)
+    });
     println!("{score}");
 
     // part two
@@ -49,13 +48,12 @@ fn main() {
         ("Y",3),
         ("Z",6)
     ]);
-    
-    score = 0;
-    for line in inputs_raw.lines() {
+
+    let score = inputs_raw.lines().fold(0, | score, line | {
         let play: Vec<&str> = line.split(" ").collect();
         let opponents_play = shape_points.get(play[0]).unwrap();
         let desired_outcome = desired_outcome_points.get(play[1]).unwrap();
-        score += desired_outcome + get_correct_step(*opponents_play, *desired_outcome, &shapes)
-    }
+        score + desired_outcome + get_correct_step(*opponents_play, *desired_outcome, &shapes)
+    });
     println!("{score}");
 }
