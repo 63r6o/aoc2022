@@ -48,24 +48,18 @@ fn main() {
         });
     });
 
-    // part 1
     moves.iter().for_each(|line| {
         let range = line[0];
         let from = line[1] - 1;
         let to = line[2] - 1;
 
+        // part 1
         (0..range).for_each(|_| {
             let item = stacks_old_crane[from].pop_back().unwrap();
             stacks_old_crane[to].push_back(item)
         });
-    });
 
-    // part 2
-    moves.iter().for_each(|line| {
-        let range = line[0];
-        let from = line[1] - 1;
-        let to = line[2] - 1;
-
+        // part 2
         (0..range)
             .map(|_| (stacks_new_crane[from].pop_back().unwrap()))
             .collect::<Vec<char>>()
