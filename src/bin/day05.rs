@@ -1,6 +1,6 @@
-use std::collections::LinkedList;
 use ::std::env;
 use ::std::fs;
+use std::collections::LinkedList;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -20,21 +20,24 @@ fn main() {
     let moves: Vec<Vec<usize>> = inputs[1]
         .lines()
         .map(|line| {
-            line.split(" ").filter_map(|item| {
-                if item.parse::<usize>().is_ok() {
-                    Some(item.parse::<usize>().unwrap())
-                } else {
-                    None
-                }
-            }).collect()
+            line.split(" ")
+                .filter_map(|item| {
+                    if item.parse::<usize>().is_ok() {
+                        Some(item.parse::<usize>().unwrap())
+                    } else {
+                        None
+                    }
+                })
+                .collect()
         })
         .collect();
 
     let num_of_stacks = stack_drawings[0].len() / 4 + 1;
 
-    let mut stacks_old_crane: Vec<LinkedList<char>> = (0..num_of_stacks).map(|_| LinkedList::new()).collect();
-    let mut stacks_new_crane: Vec<LinkedList<char>> = (0..num_of_stacks).map(|_| LinkedList::new()).collect();
-
+    let mut stacks_old_crane: Vec<LinkedList<char>> =
+        (0..num_of_stacks).map(|_| LinkedList::new()).collect();
+    let mut stacks_new_crane: Vec<LinkedList<char>> =
+        (0..num_of_stacks).map(|_| LinkedList::new()).collect();
 
     for line in stack_drawings {
         line.chunks(4).enumerate().for_each(|(i, chunk)| {
@@ -46,7 +49,7 @@ fn main() {
     }
 
     // part 1
-    moves.iter().for_each(| line | {
+    moves.iter().for_each(|line| {
         let range = line[0];
         let from = line[1] - 1;
         let to = line[2] - 1;
@@ -58,7 +61,7 @@ fn main() {
     });
 
     // part 2
-    moves.iter().for_each(| line | {
+    moves.iter().for_each(|line| {
         let range = line[0];
         let from = line[1] - 1;
         let to = line[2] - 1;
@@ -74,9 +77,15 @@ fn main() {
             stacks_new_crane[to].push_back(i)
         }
     });
-    
-    let first_result: String = stacks_old_crane.iter().map(| line | line.back().unwrap_or(&' ')).collect();
-    let second_result: String = stacks_new_crane.iter().map(| line | line.back().unwrap_or(&' ')).collect();
+
+    let first_result: String = stacks_old_crane
+        .iter()
+        .map(|line| line.back().unwrap_or(&' '))
+        .collect();
+    let second_result: String = stacks_new_crane
+        .iter()
+        .map(|line| line.back().unwrap_or(&' '))
+        .collect();
     println!("{first_result}");
     println!("{second_result}");
 }
