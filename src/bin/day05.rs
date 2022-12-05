@@ -54,11 +54,6 @@ fn main() {
         let from = line[1] - 1;
         let to = line[2] - 1;
 
-        // for _i in 0..range {
-        //     let item = stacks_old_crane[from].pop_back().unwrap();
-        //     stacks_old_crane[to].push_back(item)
-        // }
-
         (0..range).for_each(|_| {
             let item = stacks_old_crane[from].pop_back().unwrap();
             stacks_old_crane[to].push_back(item)
@@ -71,23 +66,12 @@ fn main() {
         let from = line[1] - 1;
         let to = line[2] - 1;
 
-        let mut items: LinkedList<char> = LinkedList::new();
-
-        // for _i in 0..range {
-        //     let item = stacks_new_crane[from].pop_back().unwrap();
-        //     items.push_front(item);
-        // }
-        (0..range).for_each(|_| {
-            let item = stacks_new_crane[from].pop_back().unwrap();
-            items.push_front(item)
-        });
-
-        // for i in items {
-        //     stacks_new_crane[to].push_back(i)
-        // }
-        items
+        (0..range)
+            .map(|_| (stacks_new_crane[from].pop_back().unwrap()))
+            .collect::<Vec<char>>()
             .iter()
-            .for_each(|&item| stacks_new_crane[to].push_back(item))
+            .rev()
+            .for_each(|item| stacks_new_crane[to].push_back(*item));
     });
 
     let first_result: String = stacks_old_crane
@@ -98,16 +82,7 @@ fn main() {
         .iter()
         .map(|line| line.back().unwrap_or(&' '))
         .collect();
+        
     println!("{first_result}");
     println!("{second_result}");
 }
-
-// for loops:   0.10s user 0.02s system 5% cpu 2.415 total
-//              0.10s user 0.02s system 34% cpu 0.346 total
-//              0.10s user 0.02s system 11% cpu 1.085 total
-
-// for each:     0.10s user 0.02s system 8% cpu 1.506 total
-//               0.10s user 0.02s system 12% cpu 0.976 total
-//               0.10s user 0.02s system 37% cpu 0.324 total
-
-// literally the same
