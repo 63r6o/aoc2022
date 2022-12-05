@@ -9,10 +9,10 @@ fn main() {
     let mut most_calories = 0;
 
     let input_raw = fs::read_to_string(file_path).expect("Couldn't open file");
-    let input: Vec<&str> = input_raw.split("\n").collect();
+    let input: Vec<&str> = input_raw.split('\n').collect();
 
     for line in &input {
-        if *line != "" {sum += line.parse::<i32>().unwrap()}
+        if !(*line).is_empty() {sum += line.parse::<i32>().unwrap()}
         else if sum > most_calories {most_calories = sum; sum = 0}
         else { sum = 0 }
     }
@@ -23,7 +23,7 @@ fn main() {
     sum = 0;
     let mut top_three = [0; 3];
     for line in &input {
-        if *line != "" {sum += line.parse::<i32>().unwrap()}
+        if !(*line).is_empty() {sum += line.parse::<i32>().unwrap()}
         else if sum > *top_three.iter().min().unwrap() {
             let smallest_index = top_three.iter().position(|x| x == top_three.iter().min().unwrap()).unwrap();
             top_three[smallest_index] = sum;

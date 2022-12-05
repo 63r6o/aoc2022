@@ -9,10 +9,10 @@ fn main() {
     let input: Vec<Vec<Vec<i32>>> = inputs_raw
         .lines()
         .map(|line| {
-            line.split(",")
+            line.split(',')
                 .map(|sections| {
                     sections
-                        .split("-")
+                        .split('-')
                         .map(|x| x.parse::<i32>().unwrap())
                         .collect()
                 })

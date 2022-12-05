@@ -20,7 +20,7 @@ fn main() {
     let moves: Vec<Vec<usize>> = inputs[1]
         .lines()
         .map(|line| {
-            line.split(" ")
+            line.split(' ')
                 .filter_map(|item| {
                     if item.parse::<usize>().is_ok() {
                         Some(item.parse::<usize>().unwrap())
@@ -82,7 +82,7 @@ fn main() {
         .iter()
         .map(|line| line.back().unwrap_or(&' '))
         .collect();
-        
+
     println!("{first_result}");
     println!("{second_result}");
 }

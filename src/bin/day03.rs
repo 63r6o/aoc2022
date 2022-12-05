@@ -22,10 +22,10 @@ fn main() {
             first_items[left as usize] = true;
             second_items[right as usize] = true;
 
-            if first_items[right as usize] == true {
+            if first_items[right as usize] {
                 sum += (if right > 96 { right - 96 } else { right - 38 }) as i32;
                 break;
-            } else if second_items[left as usize] == true {
+            } else if second_items[left as usize] {
                 sum += (if left > 96 { left - 96 } else { left - 38 }) as i32;
                 break;
             }
@@ -34,7 +34,7 @@ fn main() {
     println!("{sum}");
 
     // part two
-    let inputs: Vec<&str> = inputs_raw.split("\n").collect();
+    let inputs: Vec<&str> = inputs_raw.split('\n').collect();
 
     let sum = inputs.chunks(3).fold(0, |acc, group| {
         let mut first_items: [bool; 123] = [false; 123];
@@ -117,8 +117,8 @@ fn main() {
 
 fn get_priority(ascii_number: u8) -> i32 {
     if ascii_number > 96 {
-        return ascii_number as i32 - 96;
+        ascii_number as i32 - 96
     } else {
-        return ascii_number as i32 - 38;
-    };
+        ascii_number as i32 - 38
+    }
 }
