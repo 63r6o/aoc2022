@@ -39,14 +39,14 @@ fn main() {
     let mut stacks_new_crane: Vec<LinkedList<char>> =
         (0..num_of_stacks).map(|_| LinkedList::new()).collect();
 
-    for line in stack_drawings {
+    stack_drawings.iter().for_each(|line| {
         line.chunks(4).enumerate().for_each(|(i, chunk)| {
             if chunk[1].is_alphabetic() {
                 stacks_old_crane[i].push_front(chunk[1]);
                 stacks_new_crane[i].push_front(chunk[1])
             }
         });
-    }
+    });
 
     // part 1
     moves.iter().for_each(|line| {
@@ -54,10 +54,15 @@ fn main() {
         let from = line[1] - 1;
         let to = line[2] - 1;
 
-        for _i in 0..range {
+        // for _i in 0..range {
+        //     let item = stacks_old_crane[from].pop_back().unwrap();
+        //     stacks_old_crane[to].push_back(item)
+        // }
+
+        (0..range).for_each(|_| {
             let item = stacks_old_crane[from].pop_back().unwrap();
             stacks_old_crane[to].push_back(item)
-        }
+        });
     });
 
     // part 2
@@ -68,14 +73,21 @@ fn main() {
 
         let mut items: LinkedList<char> = LinkedList::new();
 
-        for _i in 0..range {
+        // for _i in 0..range {
+        //     let item = stacks_new_crane[from].pop_back().unwrap();
+        //     items.push_front(item);
+        // }
+        (0..range).for_each(|_| {
             let item = stacks_new_crane[from].pop_back().unwrap();
-            items.push_front(item);
-        }
+            items.push_front(item)
+        });
 
-        for i in items {
-            stacks_new_crane[to].push_back(i)
-        }
+        // for i in items {
+        //     stacks_new_crane[to].push_back(i)
+        // }
+        items
+            .iter()
+            .for_each(|&item| stacks_new_crane[to].push_back(item))
     });
 
     let first_result: String = stacks_old_crane
@@ -89,3 +101,13 @@ fn main() {
     println!("{first_result}");
     println!("{second_result}");
 }
+
+// for loops:   0.10s user 0.02s system 5% cpu 2.415 total
+//              0.10s user 0.02s system 34% cpu 0.346 total
+//              0.10s user 0.02s system 11% cpu 1.085 total
+
+// for each:     0.10s user 0.02s system 8% cpu 1.506 total
+//               0.10s user 0.02s system 12% cpu 0.976 total
+//               0.10s user 0.02s system 37% cpu 0.324 total
+
+// literally the same
