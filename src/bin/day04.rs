@@ -6,7 +6,7 @@ fn main() {
     let file_path = &args[1];
     let inputs_raw = fs::read_to_string(file_path).expect("Couldn't open the file");
 
-    let input = inputs_raw
+    let input: Vec<Vec<Vec<i32>>> = inputs_raw
         .lines()
         .map(|line| {
             line.split(",")
@@ -14,11 +14,11 @@ fn main() {
                     sections
                         .split("-")
                         .map(|x| x.parse::<i32>().unwrap())
-                        .collect::<Vec<i32>>()
+                        .collect()
                 })
-                .collect::<Vec<Vec<i32>>>()
+                .collect()
         })
-        .collect::<Vec<Vec<Vec<i32>>>>();
+        .collect();
 
     let overlaps: i32 = input
         .iter()
