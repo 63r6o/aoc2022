@@ -38,6 +38,28 @@ impl Graph {
         }
     }
 
+    pub fn get_shortest_path(&self, from: usize, destination: usize) -> Vec<usize> {
+        let mut distance: Vec<i32> = Vec::new();
+        self.nodes.iter().for_each(|_| distance.push(i32::MAX));
+
+        let mut predecessor: Vec<i32> = Vec::new();
+        self.nodes.iter().for_each(|_| predecessor.push(-1));
+
+        if !self.bfs(from, destination, &mut predecessor, &mut distance) {
+            //println!("There is no way to get there!")
+        }
+
+        let mut path = Vec::new();
+        let mut crawl = destination;
+        path.push(destination);
+
+        while predecessor[crawl] != -1 {
+            path.push(predecessor[crawl] as usize);
+            crawl = predecessor[crawl] as usize;
+        }
+        path
+    }
+
     fn is_valid_step(from: &Node, to: &Node) -> bool {
         to.elevation - from.elevation <= 1
     }
@@ -74,28 +96,6 @@ impl Graph {
             }
         }
         false
-    }
-
-    fn get_shortest_path(&self, from: usize, destination: usize) -> Vec<usize> {
-        let mut distance: Vec<i32> = Vec::new();
-        self.nodes.iter().for_each(|_| distance.push(i32::MAX));
-
-        let mut predecessor: Vec<i32> = Vec::new();
-        self.nodes.iter().for_each(|_| predecessor.push(-1));
-
-        if !self.bfs(from, destination, &mut predecessor, &mut distance) {
-            //println!("There is no way to get there!")
-        }
-
-        let mut path = Vec::new();
-        let mut crawl = destination;
-        path.push(destination);
-
-        while predecessor[crawl] != -1 {
-            path.push(predecessor[crawl] as usize);
-            crawl = predecessor[crawl] as usize;
-        }
-        path
     }
 }
 fn main() {
@@ -164,7 +164,7 @@ fn main() {
         .enumerate()
         .filter_map(
             |(i, height)| {
-                if height == b'a' as i8 {
+                if height == 'a' as i8 {
                     Some(i)
                 } else {
                     None
